@@ -1,0 +1,70 @@
+﻿@page
+@model DatosClientes
+
+<h3>Carga de documentos CSV Datos CLIENTES</h3>
+
+
+
+@if (TempData["Success"] is Dictionary<string, string> mensajes)
+{
+    <div class="alert alert-success">
+        <dl class="row mb-0">
+            @foreach (var item in mensajes)
+            {
+                <dt class="col-sm-4">@item.Key</dt>
+                <dd class="col-sm-8">@item.Value</dd>
+            }
+        </dl>
+    </div>
+}
+
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<div class="card mt-3">
+    <div class="card-body">
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label">Archivo CSV</label>
+                <input type="file"
+                       class="form-control"
+                       name="ArchivoCsv"
+                       accept=".csv"
+                       required />
+            </div>
+
+            <button id="btnEnviar"
+                    type="submit"
+                    class="btn btn-primary">
+                Cargar archivo Captación
+            </button>
+        </form>
+
+        <!-- 🔄 LOADER -->
+        <div id="loader"
+             class="text-center mt-4"
+             style="display:none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-2 fw-bold">
+                Cargando archivo, por favor espere…
+            </p>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+    <script>
+        function mostrarLoader() {
+            document.getElementById("loader").style.display = "block";
+            document.getElementById("btnEnviar").disabled = true;
+        }
+    </script>
+}
